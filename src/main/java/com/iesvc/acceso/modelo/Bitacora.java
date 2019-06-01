@@ -7,8 +7,10 @@ import java.sql.Time;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 
 
@@ -21,7 +23,16 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
  */
 @Entity
 @Table(name="bitacora")
-@NamedQuery(name="Bitacora.findAll", query="SELECT b FROM Bitacora b")
+@NamedQuery(name="Bitacora.findAll", 
+            query="SELECT b FROM Bitacora b")
+@NamedQuery(
+		name = "Bitacora.findById", 
+		query = "SELECT b FROM Bitacora b WHERE b.id = :id")
+@NamedQuery(
+		name = "Bitacora.findByFecha", 
+		query = "SELECT b FROM Bitacora b WHERE b.fecha = :fecha")
+
+@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class Bitacora implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -39,7 +50,6 @@ public class Bitacora implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="usuario")
 	@JsonBackReference
-
 	private Usuario usuarioBean;
 
 	public Bitacora() {

@@ -14,7 +14,10 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
  */
 @Entity
 @Table(name="stock")
-@NamedQuery(name="Stock.findAll", query="SELECT s FROM Stock s")
+@NamedQuery(name="Stock.findAll", 
+            query="SELECT s FROM Stock s")
+@NamedQuery(name = "Stock.findById", 
+            query = "SELECT s FROM Stock s WHERE s.id= :id")
 public class Stock implements Serializable {
 	private static final long serialVersionUID = 1L;
 

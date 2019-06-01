@@ -15,7 +15,12 @@ import java.util.List;
  */
 @Entity
 @Table(name="producto")
-@NamedQuery(name="Producto.findAll", query="SELECT p FROM Producto p")
+@NamedQuery(name="Producto.findAll", 
+           query="SELECT p FROM Producto p")
+@NamedQuery(name = "Producto.findById", 
+           query = "SELECT p FROM Producto p WHERE p.id= :id")
+@NamedQuery(name = "Producto.findByNombre", 
+           query = "SELECT p FROM Producto p WHERE p.nombre= :nombre")
 public class Producto implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -114,11 +119,6 @@ public class Producto implements Serializable {
 		return stock;
 	}
 
-	@Override
-	public String toString() {
-		return "Producto [id=" + id + ", descripcion=" + descripcion + ", marca=" + marca + ", modelo=" + modelo
-				+ ", nombre=" + nombre + ", tipoBean=" + tipoBean + ", stocks=" + stocks + "]";
-	}
 	
 
 }

@@ -7,7 +7,12 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="administrador")
-@NamedQuery(name="Administrador.findAll", query="SELECT a FROM Administrador a")
+@NamedQuery(name="Administrador.findAll", 
+            query="SELECT a FROM Administrador a")
+@NamedQuery(
+		name = "Administrador.findById", 
+		query = "SELECT a FROM Administrador a WHERE a.id = :id")
+
 public class Administrador {
 @Id	
 private String username;
