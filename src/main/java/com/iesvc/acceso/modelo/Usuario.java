@@ -1,10 +1,12 @@
-package com.iesvc.acceso.pojos;
+package com.iesvc.acceso.modelo;
 
 import java.io.Serializable;
 import javax.persistence.*;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,8 +34,8 @@ public class Usuario implements Serializable {
 
 	//bi-directional many-to-one association to Bitacora
 	@OneToMany(mappedBy="usuarioBean")
+    @JsonManagedReference
 	private List<Bitacora> bitacoras;
-//  private List<Bitacora> BitacoraList = new ArrayList<Bitacora>();
 	
 
 	public Usuario() {
@@ -62,7 +64,7 @@ public class Usuario implements Serializable {
 	public void setPasswd(String passwd) {
 		this.passwd = passwd;
 	}
-	/*
+	
 
 	public List<Bitacora> getBitacoras() {
 		return this.bitacoras;
@@ -85,6 +87,6 @@ public class Usuario implements Serializable {
 
 		return bitacora;
 	}
-*/	
+	
 
 }

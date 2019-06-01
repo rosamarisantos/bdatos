@@ -1,10 +1,14 @@
-package com.iesvc.acceso.pojos;
+package com.iesvc.acceso.modelo;
 
 import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Time;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 
 
@@ -34,6 +38,8 @@ public class Bitacora implements Serializable {
 	//bi-directional many-to-one association to Usuario
 	@ManyToOne
 	@JoinColumn(name="usuario")
+	@JsonBackReference
+
 	private Usuario usuarioBean;
 
 	public Bitacora() {

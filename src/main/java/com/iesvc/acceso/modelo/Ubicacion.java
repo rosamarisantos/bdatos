@@ -1,7 +1,10 @@
-package com.iesvc.acceso.pojos;
+package com.iesvc.acceso.modelo;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import java.util.List;
 
 
@@ -24,6 +27,7 @@ public class Ubicacion implements Serializable {
 
 	//bi-directional many-to-one association to Stock
 	@OneToMany(mappedBy="ubicacionBean")
+    @JsonManagedReference
 	private List<Stock> stocks;
 
 	public Ubicacion() {
@@ -61,6 +65,7 @@ public class Ubicacion implements Serializable {
 		this.stocks = stocks;
 	}
 
+	
 	public Stock addStock(Stock stock) {
 		getStocks().add(stock);
 		stock.setUbicacionBean(this);

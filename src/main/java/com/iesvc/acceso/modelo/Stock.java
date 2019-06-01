@@ -1,7 +1,11 @@
-package com.iesvc.acceso.pojos;
+package com.iesvc.acceso.modelo;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 
 /**
@@ -22,11 +26,15 @@ public class Stock implements Serializable {
 	//bi-directional many-to-one association to Ubicacion
 	@ManyToOne
 	@JoinColumn(name="ubicacion")
+	@JsonBackReference
+	//@JsonIgnore
 	private Ubicacion ubicacionBean;
 
 	//bi-directional many-to-one association to Producto
 	@ManyToOne
 	@JoinColumn(name="id_producto")
+	@JsonBackReference
+	//@JsonIgnore
 	private Producto producto;
 
 	public Stock() {

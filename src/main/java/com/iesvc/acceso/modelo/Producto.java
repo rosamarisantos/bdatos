@@ -1,7 +1,11 @@
-package com.iesvc.acceso.pojos;
+package com.iesvc.acceso.modelo;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import java.util.List;
 
 
@@ -29,10 +33,12 @@ public class Producto implements Serializable {
 	//bi-directional many-to-one association to Tipo
 	@ManyToOne
 	@JoinColumn(name="tipo")
+	@JsonBackReference
 	private Tipo tipoBean;
 
 	//bi-directional many-to-one association to Stock
 	@OneToMany(mappedBy="producto")
+	@JsonManagedReference
 	private List<Stock> stocks;
 
 	public Producto() {
@@ -107,5 +113,12 @@ public class Producto implements Serializable {
 
 		return stock;
 	}
+
+	@Override
+	public String toString() {
+		return "Producto [id=" + id + ", descripcion=" + descripcion + ", marca=" + marca + ", modelo=" + modelo
+				+ ", nombre=" + nombre + ", tipoBean=" + tipoBean + ", stocks=" + stocks + "]";
+	}
+	
 
 }

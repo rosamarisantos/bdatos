@@ -1,7 +1,11 @@
-package com.iesvc.acceso.pojos;
+package com.iesvc.acceso.modelo;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import java.util.List;
 
 
@@ -22,11 +26,13 @@ public class Tipo implements Serializable {
 
 	//bi-directional many-to-one association to Producto
 	@OneToMany(mappedBy="tipoBean")
+	@JsonManagedReference
 	private List<Producto> productos;
 
 	//bi-directional many-to-one association to Categoria
 	@ManyToOne
 	@JoinColumn(name="categoria")
+	@JsonBackReference
 	private Categoria categoriaBean;
 
 	public Tipo() {

@@ -1,7 +1,10 @@
-package com.iesvc.acceso.pojos;
+package com.iesvc.acceso.modelo;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import java.util.List;
 
 
@@ -13,6 +16,11 @@ import java.util.List;
 @Table(name="categoria")
 @NamedQuery(name="Categoria.findAll", query="SELECT c FROM Categoria c")
 public class Categoria implements Serializable {
+	@Override
+	public String toString() {
+		return "Categoria [nombre=" + nombre + ", descripcion=" + descripcion + ", tipos=" + tipos + "]";
+	}
+
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -22,6 +30,8 @@ public class Categoria implements Serializable {
 
 	//bi-directional many-to-one association to Tipo
 	@OneToMany(mappedBy="categoriaBean")
+	//@JsonIgnore
+	@JsonManagedReference
 	private List<Tipo> tipos;
 
 	public Categoria() {

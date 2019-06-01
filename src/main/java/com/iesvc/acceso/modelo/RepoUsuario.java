@@ -1,4 +1,4 @@
-package com.iesvc.acceso.pojos;
+package com.iesvc.acceso.modelo;
 
 import java.util.List;
 
