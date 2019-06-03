@@ -34,10 +34,17 @@ public class Usuario implements Serializable {
 	private String passwd;
 
 	//bi-directional many-to-one association to Bitacora
-	@OneToMany(mappedBy="usuarioBean")
+	@OneToMany( cascade = CascadeType.ALL, mappedBy="usuarioBean")
     @JsonManagedReference
 	private List<Bitacora> bitacoras;
 	
+
+	public Usuario(String username, String email, String passwd) {
+		super();
+		this.username = username;
+		this.email = email;
+		this.passwd = passwd;
+	}
 
 	public Usuario() {
 	}

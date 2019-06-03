@@ -35,6 +35,24 @@ public class Ubicacion implements Serializable {
 
 	public Ubicacion() {
 	}
+	
+
+	public Ubicacion(String nombre, String color, String sector) {
+		super();
+		this.nombre = nombre;
+		this.color = color;
+		this.sector = sector;
+	}
+
+
+	public Ubicacion(String nombre, String color, String sector, List<Stock> stocks) {
+		super();
+		this.nombre = nombre;
+		this.color = color;
+		this.sector = sector;
+		this.stocks = stocks;
+	}
+
 
 	public String getNombre() {
 		return this.nombre;

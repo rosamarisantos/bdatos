@@ -42,7 +42,7 @@ public class Producto implements Serializable {
 	private Tipo tipoBean;
 
 	//bi-directional many-to-one association to Stock
-	@OneToMany(mappedBy="producto")
+	@OneToMany( cascade = CascadeType.ALL, mappedBy="producto")
 	@JsonManagedReference
 	private List<Stock> stocks;
 

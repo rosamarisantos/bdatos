@@ -3,14 +3,24 @@ package com.iesvc.acceso.modelo;
 import java.util.Date;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/rest")
+@CrossOrigin(origins = "*")
 public class Controlador {
 	@Autowired
 	RepoUsuario repoUsuario;
@@ -44,14 +54,43 @@ public class Controlador {
 		return repoAdmin.findAll();
 	}
 	
-	//Get Admin
-		@GetMapping ("/admin/{id}")
-		public Administrador getAdminById(@PathVariable(value="id") String username){
-			Administrador admin= repoAdmin.findById(username).get();
-			if(admin==null) admin=new Administrador();
-			return admin;
-		}
-		
+	// Get Admin
+	@GetMapping("/admin/{id}")
+	public Administrador getAdminById(@PathVariable(value = "id") String username) {
+		Administrador admin = repoAdmin.findById(username).get();
+		if (admin == null)
+			admin = new Administrador();
+		return admin;
+	}
+
+	// Post Admin
+	@PostMapping(value = "/admin", consumes = { "application/json" })
+	@ResponseBody
+	public Administrador createAdmin(@Valid @RequestBody Administrador admin) {
+		return repoAdmin.save(admin);
+	}
+
+	// Update Admin
+	@PutMapping(value = "/admin/{id}", consumes = { "application/json" })
+	@ResponseBody
+	public Administrador updateAdministrador(@PathVariable(value = "id") String administradorId,
+		@Valid @RequestBody Administrador administrador) {
+		Administrador new_administrador = repoAdmin.findById(administradorId).orElseThrow();
+		new_administrador.setEmail(administrador.getEmail());
+		new_administrador.setPassword(administrador.getPassword());
+		new_administrador.setTelefono(administrador.getTelefono());
+		return repoAdmin.save(new_administrador);
+	}
+
+	// Delete Admin
+	@DeleteMapping("/admin/{id}")
+	public ResponseEntity<?> deleteAdministrador(@PathVariable(value = "id") String administradorId) {
+		Administrador administrador = repoAdmin.findById(administradorId).orElseThrow();
+
+		repoAdmin.delete(administrador);
+
+		return ResponseEntity.ok().build();
+	}
 	
 	//------------------------------BITACORA-----------------------------------------	
 		
@@ -67,6 +106,26 @@ public class Controlador {
         return repoBitacora.findById(bitacoraId);
                
     }
+    
+    //Post Bitacora NO VA--entra sólo con ip pero si le meto usuario no funciona ??????????????????????????????????????????
+    @PostMapping(value="/bitacora", consumes= {"application/json"})
+   	@ResponseBody public Bitacora createBitacora(@Valid @RequestBody Bitacora bitacora) {
+   	System.out.println("Intent guardar Bitacora");	
+   	return repoBitacora.save(bitacora);
+   	}
+       
+    
+   // Delete Bitacora
+ 	@DeleteMapping("/bitacora/{id}")
+ 	public ResponseEntity<?> deleteBitacora(@PathVariable(value = "id") int bitacoraId) {
+ 		Bitacora bitacora = repoBitacora.findById(bitacoraId);
+
+ 		repoBitacora.delete(bitacora);
+
+ 		return ResponseEntity.ok().build();
+ 	}
+ 	
+ 	
  
     //------------------------------TIPOS---------------------------------------------
 	
@@ -75,14 +134,31 @@ public class Controlador {
 	public List<Tipo> getAllTipos(){
 		return repoTipo.findAll();
 	}
-	//Get id Tipo
-	 @GetMapping("/tipo/{nombre}")
-	    public Tipo getTipo(@PathVariable(value = "nombre") String nombre) {
-	        return repoTipo.findByNombre(nombre);
-	               
+	
+	//Get id 
+    @GetMapping("/tipo/{nombre}")
+    public Tipo getTipoByNombre(@PathVariable(value = "id") String nombreId) {
+        return repoTipo.findByNombre(nombreId);
+               
     }
 	 
-	 
+	// Post Tipo NO VA ????????????????????????????????????????????????????????????????????????????????????????????
+	@PostMapping(value = "/tipo", consumes = { "application/json" })
+	@ResponseBody
+	public Tipo createTipo(@Valid @RequestBody Tipo tipo) {
+		return repoTipo.save(tipo);
+	}
+
+	// Delete Tipo
+	@DeleteMapping("/tipo/{nombre}")
+	public ResponseEntity<?> deleteTipo(@PathVariable(value = "nombre") String tipoId) {
+		Tipo tipo = repoTipo.findByNombre(tipoId);
+
+		repoTipo.delete(tipo);
+		
+		return ResponseEntity.ok().build();
+	}
+
 	//--------------------------------PRODUCTOS------------------------------------------- 
 	 
 	
@@ -104,6 +180,22 @@ public class Controlador {
         return repoProducto.findById(id);
               
     }
+    
+ // Post Producto NO VA ???????????????????????????????????????????????????????????????????????????????????????????????
+ 	@PostMapping(value = "/producto", consumes = { "application/json" })
+ 	@ResponseBody public Producto createProducto(@Valid @RequestBody Producto producto) {
+ 		return repoProducto.save(producto);
+ 	}
+    
+ // Delete Producto
+ 	@DeleteMapping("/producto/{id}")
+ 	public ResponseEntity<?> deleteProducto(@PathVariable(value = "id") int productoId) {
+ 		Producto producto = repoProducto.findById(productoId);
+
+ 		repoProducto.delete(producto);
+
+ 		return ResponseEntity.ok().build();
+ 	}
  
  //-----------------------------------STOKS--------------------------------------------
 	
@@ -120,6 +212,23 @@ public class Controlador {
 	               
 	    }
 	 
+	// Post Stock NO VA ??????????????????????????????????????????????????????????????????????????????????????
+	@PostMapping(value = "/stock", consumes = { "application/json" })
+	@ResponseBody
+	public Stock createStock(@Valid @RequestBody Stock stock) {
+		return repoStock.save(stock);
+	}
+	 
+  // Delete Stock
+	@DeleteMapping("/stock/{id}")
+	public ResponseEntity<?> deleteStock(@PathVariable(value = "id") int stockId) {
+		Stock stock = repoStock.findById(stockId);
+
+		repoStock.delete(stock);
+
+		return ResponseEntity.ok().build();
+	}
+	 
 	//-----------------------------------UBICACION------------------------------------
 	
 	//Get All Ubicación
@@ -134,9 +243,22 @@ public class Controlador {
 	        return repoUbicacion.findByNombre(nombre);
 	               
 	    }
-	
-	
-	
+	   //Post Ubicacion NO VA ????????????????????????????????????????????????????????????????????????????????????
+		@PostMapping(value = "/ubicacion", consumes = { "application/json" })
+		@ResponseBody  public Ubicacion createUbicacion(@Valid @RequestBody Ubicacion ubicacion) {
+			return repoUbicacion.save(ubicacion);
+		}
+	 
+	 
+	// Delete Ubicacion
+	@DeleteMapping("/ubicacion/{nombre}")
+	public ResponseEntity<?> deleteUbicacion(@PathVariable(value = "nombre") String nombreId) {
+		Ubicacion ubicacion = repoUbicacion.findByNombre(nombreId);
+
+		repoUbicacion.delete(ubicacion);
+
+		return ResponseEntity.ok().build();
+	}
 	//----------------------------------CATEGORIA--------------------------------------
 	
 	//Get All Categoría
@@ -151,6 +273,24 @@ public class Controlador {
         return repoCategoria.findByNombre(nombre);
                
     }
+    
+    @PostMapping(value="/categoria", consumes= {"application/json"})
+	@ResponseBody public Categoria createCategoria(@Valid @RequestBody Categoria categoria) {
+	return repoCategoria.save(categoria);
+	}
+    
+ // Delete Categoria
+  	@DeleteMapping("/categoria/{nombre}")
+  	public ResponseEntity<?> deleteCategoria(@PathVariable(value = "nombre") String nombreId) {
+  		Categoria categoria = repoCategoria.findByNombre(nombreId);
+
+  		repoCategoria.delete(categoria);
+
+  		return ResponseEntity.ok().build();
+  	}
+  	
+  	
+  	
  
 	//-------------------------------------------USUARIOS-------------------------------------
 
@@ -167,6 +307,26 @@ public class Controlador {
 	               
 	    }
 	
-	
+	 @PostMapping(value="/usuario", consumes= {"application/json"})
+		@ResponseBody public Usuario createUsuario(@Valid @RequestBody Usuario usuario) {
+		System.out.println("Intent guardar Usuario");	
+		return repoUsuario.save(usuario);
+		
+		
+		}
+	 
+	// Delete Usuario
+	@DeleteMapping("/usuario/{username}")
+	public ResponseEntity<?> deleteUsuario(@PathVariable(value = "username") String usuarioId) {
+		Usuario usuario = repoUsuario.findByNombre(usuarioId);
+
+		repoUsuario.delete(usuario);
+
+		return ResponseEntity.ok().build();
+	}
+	 
+	 
+	 	
+	 	
 	
 }

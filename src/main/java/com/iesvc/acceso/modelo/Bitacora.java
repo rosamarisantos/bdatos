@@ -54,6 +54,23 @@ public class Bitacora implements Serializable {
 
 	public Bitacora() {
 	}
+    
+	public Bitacora(int id, Time hora, Date fecha, String ip) {
+		super();
+		this.id = id;
+		this.hora = hora;
+		this.fecha = fecha;
+		this.ip = ip;
+	}
+	
+	
+
+	public Bitacora(Time hora, Date fecha, String ip) {
+		super();
+		this.hora = hora;
+		this.fecha = fecha;
+		this.ip = ip;
+	}
 
 	public int getId() {
 		return this.id;
@@ -96,5 +113,7 @@ public class Bitacora implements Serializable {
 	public void setUsuarioBean(Usuario usuarioBean) {
 		this.usuarioBean = usuarioBean;
 	}
+
+
 
 }

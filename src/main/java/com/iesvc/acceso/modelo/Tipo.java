@@ -17,7 +17,7 @@ import java.util.List;
 @Table(name="tipo")
 @NamedQuery(name="Tipo.findAll", 
             query="SELECT t FROM Tipo t")
-@NamedQuery(name = "Tipo.findById", 
+@NamedQuery(name = "Tipo.findByNombre", 
             query = "SELECT t FROM Tipo t WHERE t.nombre= :nombre")
 public class Tipo implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -28,7 +28,7 @@ public class Tipo implements Serializable {
 	private String descripcion;
 
 	//bi-directional many-to-one association to Producto
-	@OneToMany(mappedBy="tipoBean")
+	@OneToMany( cascade = CascadeType.ALL, mappedBy="tipoBean")
 	@JsonManagedReference
 	private List<Producto> productos;
 
@@ -40,6 +40,30 @@ public class Tipo implements Serializable {
 
 	public Tipo() {
 	}
+
+	
+	public Tipo(String nombre, String descripcion, List<Producto> productos, Categoria categoriaBean) {
+		super();
+		this.nombre = nombre;
+		this.descripcion = descripcion;
+		this.productos = productos;
+		this.categoriaBean = categoriaBean;
+	}
+
+
+	public Tipo(String nombre, String descripcion, Categoria categoriaBean) {
+		super();
+		this.nombre = nombre;
+		this.descripcion = descripcion;
+		this.categoriaBean = categoriaBean;
+	}
+	
+	public Tipo(String nombre, String descripcion) {
+		super();
+		this.nombre = nombre;
+		this.descripcion = descripcion;
+	}
+
 
 	public String getNombre() {
 		return this.nombre;

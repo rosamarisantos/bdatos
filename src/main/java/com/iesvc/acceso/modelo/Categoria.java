@@ -28,10 +28,18 @@ public class Categoria implements Serializable {
 	private String descripcion;
 
 	//bi-directional many-to-one association to Tipo
-	@OneToMany(mappedBy="categoriaBean")
+
+	@OneToMany(cascade = CascadeType.ALL, mappedBy="categoriaBean")
 	//@JsonIgnore
 	@JsonManagedReference
 	private List<Tipo> tipos;
+    
+	public Categoria(String nombre, String descripcion, List<Tipo> tipos) {
+		super();
+		this.nombre = nombre;
+		this.descripcion = descripcion;
+		this.tipos = tipos;
+	}
 
 	public Categoria() {
 	}
