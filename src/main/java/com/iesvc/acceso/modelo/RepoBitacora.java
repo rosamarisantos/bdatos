@@ -14,4 +14,5 @@ public interface RepoBitacora extends JpaRepository<Bitacora, String> {
 	Bitacora findById( @Param("id") int  id);
 	
 	
+	
 }

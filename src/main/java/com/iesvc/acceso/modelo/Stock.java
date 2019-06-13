@@ -31,7 +31,8 @@ public class Stock implements Serializable {
 	@JoinColumn(name="ubicacion")
 	@JsonBackReference
 	//@JsonIgnore
-	private Ubicacion ubicacionBean;
+	//private Ubicacion ubicacionBean;
+	private Ubicacion ubicacion;
 
 	//bi-directional many-to-one association to Producto
 	@ManyToOne
@@ -59,14 +60,23 @@ public class Stock implements Serializable {
 		this.cantidad = cantidad;
 	}
 
-	public Ubicacion getUbicacionBean() {
+	public Ubicacion getUbicacion() {
+		return this.ubicacion;
+	}
+
+	public void setUbicacion(Ubicacion ubicacion) {
+		this.ubicacion = ubicacion;
+	}
+/*
+ *public Ubicacion getUbicacionBean() {
 		return this.ubicacionBean;
 	}
 
 	public void setUbicacionBean(Ubicacion ubicacionBean) {
 		this.ubicacionBean = ubicacionBean;
-	}
-
+	} 
+ * 
+ */
 	public Producto getProducto() {
 		return this.producto;
 	}

@@ -3,8 +3,11 @@ package com.iesvc.acceso.modelo;
 import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Time;
+import java.util.List;
 
 import javax.persistence.*;
+
+import org.springframework.data.annotation.CreatedDate;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
@@ -31,6 +34,10 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 @NamedQuery(
 		name = "Bitacora.findByFecha", 
 		query = "SELECT b FROM Bitacora b WHERE b.fecha = :fecha")
+/*
+@NamedQuery(name = "Bitacora.findByUser", 
+        query = "SELECT b FROM Bitacora b WHERE b.usuario=:usuario")
+        */
 
 @JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class Bitacora implements Serializable {
@@ -38,10 +45,14 @@ public class Bitacora implements Serializable {
 
 	@Id
 	private int id;
-
+	
+	
+	//@CreatedDate
+    //@Temporal(TemporalType.TIME)
 	private Time hora;
 
-
+   // @CreatedDate
+   // @Temporal(TemporalType.DATE)
 	private Date fecha;
 
 	private String ip;
@@ -52,25 +63,15 @@ public class Bitacora implements Serializable {
 	@JsonBackReference
 	private Usuario usuarioBean;
 
+
 	public Bitacora() {
 	}
     
-	public Bitacora(int id, Time hora, Date fecha, String ip) {
-		super();
-		this.id = id;
-		this.hora = hora;
-		this.fecha = fecha;
+	public Bitacora(Usuario usuarioBean, String ip) {
 		this.ip = ip;
+		this.usuarioBean=usuarioBean;
 	}
 	
-	
-
-	public Bitacora(Time hora, Date fecha, String ip) {
-		super();
-		this.hora = hora;
-		this.fecha = fecha;
-		this.ip = ip;
-	}
 
 	public int getId() {
 		return this.id;

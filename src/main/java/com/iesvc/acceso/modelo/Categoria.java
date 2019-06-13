@@ -14,7 +14,7 @@ import java.util.List;
  */
 @Entity
 @Table(name="categoria")
-@NamedQuery(name="Categoria.findAll", 
+@NamedQuery(name="Categoria.findAllCategoria", 
             query="SELECT c FROM Categoria c")
 @NamedQuery(name = "Categoria.findById", 
 		    query = "SELECT c FROM Categoria c WHERE c.nombre= :nombre")
@@ -28,7 +28,6 @@ public class Categoria implements Serializable {
 	private String descripcion;
 
 	//bi-directional many-to-one association to Tipo
-
 	@OneToMany(cascade = CascadeType.ALL, mappedBy="categoriaBean")
 	//@JsonIgnore
 	@JsonManagedReference

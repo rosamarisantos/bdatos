@@ -22,6 +22,10 @@ import java.util.List;
 @NamedQuery(name="Usuario.findAll", query="SELECT u FROM Usuario u")
 @NamedQuery(name = "Usuario.findByNombre", 
             query = "SELECT u FROM Usuario u  WHERE u.username = :username")
+/*
+@NamedQuery(name = "Usuario.findByNombre", 
+query = "SELECT u FROM Usuario u  WHERE u.username = :username")
+ */           
 //@NamedQuery(name = "Usuario.findByEmail", query = "SELECT u FROM Usuario u  WHERE u.email = :email")
 public class Usuario implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -94,6 +98,7 @@ public class Usuario implements Serializable {
 		bitacora.setUsuarioBean(null);
 
 		return bitacora;
+		
 	}
 	
 

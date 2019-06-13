@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import net.bytebuddy.dynamic.DynamicType.Builder.FieldDefinition.Optional;
+
 @RestController
 @RequestMapping("/rest")
 @CrossOrigin(origins = "*")
@@ -106,14 +108,21 @@ public class Controlador {
         return repoBitacora.findById(bitacoraId);
                
     }
-    
-    //Post Bitacora NO VA--entra sólo con ip pero si le meto usuario no funciona ??????????????????????????????????????????
-    @PostMapping(value="/bitacora", consumes= {"application/json"})
-   	@ResponseBody public Bitacora createBitacora(@Valid @RequestBody Bitacora bitacora) {
+  
+   //No funciona ni desde bitacora tampoco-----------------------------
+    //Post Bitacora 
+   /* @PostMapping(value="/usuario/{username}/bitacora", consumes= {"application/json"})
+   	@ResponseBody public Usuario createBitacora( @PathVariable (value="bitacora")  @RequestBody Bitacora bitacora) {
    	System.out.println("Intent guardar Bitacora");	
-   	return repoBitacora.save(bitacora);
+   	return repoUsuario.save(bitacora);
    	}
-       
+   	*/
+   	
+    @PostMapping(value = "/bitacora", consumes = { "application/json" })
+	@ResponseBody
+	public @Valid Bitacora createBitacora(@Valid @RequestBody Bitacora bitacora) {
+		return repoBitacora.save(bitacora);
+	}  
     
    // Delete Bitacora
  	@DeleteMapping("/bitacora/{id}")
@@ -125,7 +134,7 @@ public class Controlador {
  		return ResponseEntity.ok().build();
  	}
  	
- 	
+ 	//UpdateBitacora   La bitacora no se puede modificar
  
     //------------------------------TIPOS---------------------------------------------
 	
@@ -135,9 +144,8 @@ public class Controlador {
 		return repoTipo.findAll();
 	}
 	
-	//Get id 
     @GetMapping("/tipo/{nombre}")
-    public Tipo getTipoByNombre(@PathVariable(value = "id") String nombreId) {
+    public Tipo getTipoById(@PathVariable(value = "nombre") String nombreId) {
         return repoTipo.findByNombre(nombreId);
                
     }
@@ -148,7 +156,8 @@ public class Controlador {
 	public Tipo createTipo(@Valid @RequestBody Tipo tipo) {
 		return repoTipo.save(tipo);
 	}
-
+	
+	
 	// Delete Tipo
 	@DeleteMapping("/tipo/{nombre}")
 	public ResponseEntity<?> deleteTipo(@PathVariable(value = "nombre") String tipoId) {
@@ -158,6 +167,7 @@ public class Controlador {
 		
 		return ResponseEntity.ok().build();
 	}
+
 
 	//--------------------------------PRODUCTOS------------------------------------------- 
 	 
@@ -212,6 +222,14 @@ public class Controlador {
 	               
 	    }
 	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
 	// Post Stock NO VA ??????????????????????????????????????????????????????????????????????????????????????
 	@PostMapping(value = "/stock", consumes = { "application/json" })
 	@ResponseBody
@@ -219,6 +237,14 @@ public class Controlador {
 		return repoStock.save(stock);
 	}
 	 
+	
+	
+	
+	
+	
+	
+	
+	
   // Delete Stock
 	@DeleteMapping("/stock/{id}")
 	public ResponseEntity<?> deleteStock(@PathVariable(value = "id") int stockId) {
@@ -264,10 +290,9 @@ public class Controlador {
 	//Get All Categoría
 	@GetMapping ("/categoria")
 	public List<Categoria> getAllCategorias(){
-		return repoCategoria.findAll();
+		return repoCategoria.findAllCategoria();
 	}
-	
-	 
+
     @GetMapping("/categoria/{nombre}")
     public Categoria getCategoria(@PathVariable(value = "nombre") String nombre) {
         return repoCategoria.findByNombre(nombre);
@@ -301,12 +326,20 @@ public class Controlador {
 	}
 	
 	
+	// Get All Bitacoras de un Usuario
+		@GetMapping("/usuario/{username}/bitacora")
+		public List<Bitacora> getAllBitacora(@PathVariable (value="username") String username) {
+			java.util.Optional<Usuario> usuario =repoUsuario.findById(username);
+			return usuario.get().getBitacoras();
+		}
+	
 	 @GetMapping("/usuario/{username}")
 	    public Usuario getUsuario(@PathVariable(value = "username") String username) {
 	        return repoUsuario.findByNombre(username);
 	               
 	    }
 	
+	 
 	 @PostMapping(value="/usuario", consumes= {"application/json"})
 		@ResponseBody public Usuario createUsuario(@Valid @RequestBody Usuario usuario) {
 		System.out.println("Intent guardar Usuario");	
@@ -314,6 +347,19 @@ public class Controlador {
 		
 		
 		}
+	 
+	// Update Usuario
+		@PutMapping(value = "/usuario/{username}", consumes = { "application/json" })
+		@ResponseBody
+		public Usuario updateUsuario(@PathVariable(value = "username") String usuarioId,
+			@Valid @RequestBody Usuario usuario) {
+			Usuario new_usuario = repoUsuario.findById(usuarioId).orElseThrow();
+			new_usuario.setEmail(usuario.getEmail());
+			new_usuario.setPasswd(usuario.getPasswd());
+			return repoUsuario.save(new_usuario);
+		}
+		
+	
 	 
 	// Delete Usuario
 	@DeleteMapping("/usuario/{username}")

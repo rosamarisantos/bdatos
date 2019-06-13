@@ -26,7 +26,13 @@ public class Tipo implements Serializable {
 	private String nombre;
 
 	private String descripcion;
-
+	/*
+	//bi-directional many-to-one association to Usuario
+		@ManyToOne
+		@JoinColumn(name="usuario")
+		@JsonBackReference
+		private Usuario usuarioBean;
+*/
 	//bi-directional many-to-one association to Producto
 	@OneToMany( cascade = CascadeType.ALL, mappedBy="tipoBean")
 	@JsonManagedReference
@@ -42,6 +48,21 @@ public class Tipo implements Serializable {
 	}
 
 	
+	public Tipo(String nombre, String descripcion, List<Producto> productos) {
+		super();
+		this.nombre = nombre;
+		this.descripcion = descripcion;
+		this.productos = productos;
+		
+	}
+
+
+	public Tipo(String nombre) {
+		super();
+		this.nombre = nombre;
+		
+	}
+	
 	public Tipo(String nombre, String descripcion, List<Producto> productos, Categoria categoriaBean) {
 		super();
 		this.nombre = nombre;
@@ -51,15 +72,7 @@ public class Tipo implements Serializable {
 	}
 
 
-	public Tipo(String nombre, String descripcion, Categoria categoriaBean) {
-		super();
-		this.nombre = nombre;
-		this.descripcion = descripcion;
-		this.categoriaBean = categoriaBean;
-	}
-	
 	public Tipo(String nombre, String descripcion) {
-		super();
 		this.nombre = nombre;
 		this.descripcion = descripcion;
 	}
@@ -102,6 +115,8 @@ public class Tipo implements Serializable {
 
 		return producto;
 	}
+	
+	
 
 	public Categoria getCategoriaBean() {
 		return this.categoriaBean;

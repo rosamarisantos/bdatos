@@ -36,10 +36,11 @@ public class Producto implements Serializable {
 	private String nombre;
 
 	//bi-directional many-to-one association to Tipo
-	@ManyToOne
-	@JoinColumn(name="tipo")
+	@ManyToOne (optional = false)
+	@JoinColumn(name="tipo", referencedColumnName = "nombre", nullable = false)
 	@JsonBackReference
 	private Tipo tipoBean;
+	
 
 	//bi-directional many-to-one association to Stock
 	@OneToMany( cascade = CascadeType.ALL, mappedBy="producto")
@@ -48,6 +49,18 @@ public class Producto implements Serializable {
 
 	public Producto() {
 	}
+
+	public Producto(int id, String descripcion, String marca, String modelo, String nombre, Tipo tipoBean) {
+		super();
+		this.id = id;
+		this.descripcion = descripcion;
+		this.marca = marca;
+		this.modelo = modelo;
+		this.nombre = nombre;
+		this.tipoBean = tipoBean;
+	}
+
+
 
 	public int getId() {
 		return this.id;
@@ -100,6 +113,7 @@ public class Producto implements Serializable {
 	public List<Stock> getStocks() {
 		return this.stocks;
 	}
+
 
 	public void setStocks(List<Stock> stocks) {
 		this.stocks = stocks;

@@ -29,7 +29,7 @@ public class Ubicacion implements Serializable {
 	private String sector;
 
 	//bi-directional many-to-one association to Stock
-	@OneToMany(mappedBy="ubicacionBean")
+	@OneToMany(mappedBy="ubicacion")
     @JsonManagedReference
 	private List<Stock> stocks;
 
@@ -89,14 +89,14 @@ public class Ubicacion implements Serializable {
 	
 	public Stock addStock(Stock stock) {
 		getStocks().add(stock);
-		stock.setUbicacionBean(this);
+		stock.setUbicacion(this);
 
 		return stock;
 	}
 
 	public Stock removeStock(Stock stock) {
 		getStocks().remove(stock);
-		stock.setUbicacionBean(null);
+		stock.setUbicacion(null);
 
 		return stock;
 	}
